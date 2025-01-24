@@ -1,8 +1,11 @@
 import { Container } from "inversify";
 import { Server } from "./server/server";
 import {
+  initializeControllers,
   initializeDatabase,
+  initializeDatastores,
   initializeLogger,
+  initializeRepositories,
   initializeServer,
 } from "./Inversify/Inversify";
 import { INVERSIFY_TYPES } from "./Inversify/InversifyTypes";
@@ -22,7 +25,9 @@ export class ServerInit {
     );
 
     /** Get the instance of DatabaseConnection to initialize the connect with DB */
-    this.inversifyContainer.get<IDatabaseConnection>(INVERSIFY_TYPES.DatabaseConnection)
+    this.inversifyContainer.get<IDatabaseConnection>(
+      INVERSIFY_TYPES.DatabaseConnection
+    );
   }
 
   initInversifyContainer() {
@@ -30,6 +35,9 @@ export class ServerInit {
     initializeLogger(container);
     initializeServer(container);
     initializeDatabase(container);
+    initializeDatastores(container);
+    initializeRepositories(container);
+    initializeControllers(container);
     return container;
   }
 }

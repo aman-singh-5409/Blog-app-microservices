@@ -1,14 +1,6 @@
 import { join } from "path";
 import { DataSource } from "typeorm";
 
-console.log(
-  "HOST : ",
-  process.env.ORM_HOST,
-  process.env.ORM_USERNAME,
-  process.env.ORM_PASSWORD,
-  process.env.ORM_DATABASE
-);
-
 export const connectionSource = new DataSource({
   type: "mysql",
   host: process.env.ORM_HOST,

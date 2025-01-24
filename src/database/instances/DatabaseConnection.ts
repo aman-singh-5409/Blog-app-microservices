@@ -144,13 +144,6 @@ export class DatabaseConnection implements IDatabaseConnection {
   }
 
   private async connect(): Promise<DataSource> {
-    console.log(
-      "HOST : ",
-      process.env.ORM_HOST,
-      process.env.ORM_USERNAME,
-      process.env.ORM_PASSWORD,
-      process.env.ORM_DATABASE
-    );
     return new DataSource({
       type: "mysql",
       host: process.env.ORM_HOST,
