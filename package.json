@@ -5,7 +5,11 @@
   "scripts": {
     "start": "node .build/index.js",
     "dev": "nodemon",
-    "build": "tsc"
+    "build": "tsc",
+    "migration-gen": "ts-node ./node_modules/typeorm/cli.js migration:create",
+    "migration-auto-gen": "ts-node -r dotenv/config ./node_modules/typeorm/cli.js migration:generate -d DataSource.ts",
+    "migration-run": "ts-node -r dotenv/config ./node_modules/typeorm/cli.js migration:run -d DataSource.ts",
+    "migration-revert": "ts-node -r dotenv/config ./node_modules/typeorm/cli.js migration:revert -d DataSource.ts"
   },
   "keywords": [],
   "author": "",

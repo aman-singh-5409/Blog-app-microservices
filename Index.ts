@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
-import { ServerInit } from "./src/ServerInit";
 dotenv.config();
+
+import { ServerInit } from "./src/ServerInit";
 
 process.on('warning', event => console.warn(event.stack));
 

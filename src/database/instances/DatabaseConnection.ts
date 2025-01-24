@@ -144,6 +144,13 @@ export class DatabaseConnection implements IDatabaseConnection {
   }
 
   private async connect(): Promise<DataSource> {
+    console.log(
+      "HOST : ",
+      process.env.ORM_HOST,
+      process.env.ORM_USERNAME,
+      process.env.ORM_PASSWORD,
+      process.env.ORM_DATABASE
+    );
     return new DataSource({
       type: "mysql",
       host: process.env.ORM_HOST,
@@ -153,8 +160,8 @@ export class DatabaseConnection implements IDatabaseConnection {
       database: process.env.ORM_DATABASE,
       synchronize: false,
       logging: true,
-      entities: [join(__dirname, "../entities/public/*.ts")],
-      migrations: [join(__dirname, "../migrations/public/*.ts")],
+      entities: [join(__dirname, "../entities/*.ts")],
+      migrations: [join(__dirname, "../migrations/*.ts")],
       subscribers: [],
       charset: "utf8mb4",
     }).initialize();
