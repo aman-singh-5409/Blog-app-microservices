@@ -1,4 +1,5 @@
 import { User } from "../database/entities/User";
+import { ILoginResponse } from "../Types/ILogin";
 
 export interface ILoginWithEmailAndPasswordArgs {
   email: string;
@@ -14,7 +15,7 @@ export interface ICreateAccountWithEmailAndPasswordArgs {
 export interface IAuthRepository {
   loginWithEmailAndPassword(
     args: ILoginWithEmailAndPasswordArgs
-  ): Promise<void>;
+  ): Promise<ILoginResponse>;
   
   createAccountWithEmailAndPassword(
     args: ICreateAccountWithEmailAndPasswordArgs

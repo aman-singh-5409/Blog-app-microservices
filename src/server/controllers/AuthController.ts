@@ -28,11 +28,35 @@ export class AuthController implements IRouterController {
     this.router.post(`${this.path}/create-account`, this.createUserAccount);
   }
 
-  private loginUser = (
-    req: express.Request,
-    res: express.Response,
+  private loginUser = async (
+    request: express.Request,
+    response: express.Response,
     next: express.NextFunction
-  ) => {};
+  ) => {
+    try {
+      const { email, password } = request.body;
+
+      if (!email || !password) {
+        throw new Exception(
+          ErrorCode.BadRequest,
+          LocalizationMessage.errorMessage.MissingRequiredFields
+        );
+      }
+
+      const res = await this.authRepository.loginWithEmailAndPassword({
+        email,
+        password,
+      });
+
+      response.cookie("auth_token", res.authToken);
+
+      const { password: pass, ...resultWithoutPassword } = res.user;
+
+      response.status(200).json(resultWithoutPassword);
+    } catch (error) {
+      next(error);
+    }
+  };
 
   private createUserAccount = async (
     request: express.Request,

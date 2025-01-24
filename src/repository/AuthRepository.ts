@@ -1,5 +1,6 @@
 import { inject, injectable } from "inversify";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import {
   IAuthRepository,
   ICreateAccountWithEmailAndPasswordArgs,
@@ -11,6 +12,7 @@ import { Exception } from "../utils/exceptions/Exception";
 import { ErrorCode } from "../utils/exceptions/ErrorCode";
 import { LocalizationMessage } from "../utils/messages";
 import { User } from "../database/entities/User";
+import { ILoginResponse } from "../Types/ILogin";
 
 @injectable()
 export class AuthRepository implements IAuthRepository {
@@ -18,9 +20,40 @@ export class AuthRepository implements IAuthRepository {
     @inject(INVERSIFY_TYPES.UserDatastore) private userDatastore: IUserDatastore
   ) {}
 
-  public async loginWithEmailAndPassword(
-    args: ILoginWithEmailAndPasswordArgs
-  ): Promise<void> {}
+  public async loginWithEmailAndPassword({
+    email,
+    password,
+  }: ILoginWithEmailAndPasswordArgs): Promise<ILoginResponse> {
+    const userExists = await this.userDatastore.getUserByEmail(email);
+
+    if (!userExists) {
+      throw new Exception(
+        ErrorCode.Unauthorised,
+        LocalizationMessage.errorMessage.badCredentials
+      );
+    }
+
+    const isCorrectPassword = bcrypt.compareSync(password, userExists.password);
+    if (!isCorrectPassword) {
+      throw new Exception(
+        ErrorCode.Unauthorised,
+        LocalizationMessage.errorMessage.badCredentials
+      );
+    }
+
+    const authToken = jwt.sign(
+      {
+        id: userExists.id,
+        email: userExists.email,
+      },
+      process.env.JWT_SECRET!
+    );
+
+    return {
+      user: userExists,
+      authToken,
+    };
+  }
 
   public async createAccountWithEmailAndPassword({
     email,

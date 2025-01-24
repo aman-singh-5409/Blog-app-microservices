@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from "cookie-parser";
 import { inject, injectable, multiInject } from "inversify";
 import { INVERSIFY_TYPES } from "../Inversify/InversifyTypes";
 import { ILogger } from "../utils/Logging/Logger.interface";
@@ -25,6 +26,7 @@ export class Server {
   private initializeMiddleware() {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
+    this.app.use(cookieParser());
   }
 
   private initializeErrorHandler() {

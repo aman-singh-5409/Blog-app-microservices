@@ -32,6 +32,7 @@ export class UserDatastore implements IUserDatastore {
       connection
         .getRepository(User)
         .createQueryBuilder("user")
+        .addSelect("user.password")
         .where("user.email = :email", { email })
         .getOne();
     if (transaction) {
