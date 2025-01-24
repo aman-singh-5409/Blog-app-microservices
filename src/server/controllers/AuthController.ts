@@ -1,6 +1,13 @@
 import express from "express";
 import { IRouterController } from "./IRouterController";
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
+import { Exception } from "../../utils/exceptions/Exception";
+import { ErrorCode } from "../../utils/exceptions/ErrorCode";
+import { LocalizationMessage } from "../../utils/messages";
+import { INVERSIFY_TYPES } from "../../Inversify/InversifyTypes";
+import { IUserDatastore } from "../../datastore/UserDatastore.interface";
+import { User } from "../../database/entities/User";
+import { IAuthRepository } from "../../repository/AuthRepository.interface";
 
 @injectable()
 export class AuthController implements IRouterController {
@@ -8,7 +15,10 @@ export class AuthController implements IRouterController {
 
   private path = "/auth";
 
-  constructor() {
+  constructor(
+    @inject(INVERSIFY_TYPES.AuthRepository)
+    private authRepository: IAuthRepository
+  ) {
     this.router = express.Router();
     this.initializeRoutes();
   }
@@ -24,9 +34,32 @@ export class AuthController implements IRouterController {
     next: express.NextFunction
   ) => {};
 
-  private createUserAccount = (
-    req: express.Request,
-    res: express.Response,
+  private createUserAccount = async (
+    request: express.Request,
+    response: express.Response,
     next: express.NextFunction
-  ) => {};
+  ) => {
+    try {
+      const { username, email, password } = request.body;
+
+      if (!username || !email || !password) {
+        throw new Exception(
+          ErrorCode.BadRequest,
+          LocalizationMessage.errorMessage.MissingRequiredFields
+        );
+      }
+
+      const res = await this.authRepository.createAccountWithEmailAndPassword({
+        email,
+        password,
+        username,
+      });
+
+      const { password: pass, ...resultWithoutPassword } = res;
+
+      response.status(200).json(resultWithoutPassword);
+    } catch (error) {
+      next(error);
+    }
+  };
 }

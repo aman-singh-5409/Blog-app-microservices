@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { IUserDatastore } from "./UserDatastore.interface";
-import { EntityManager } from "typeorm";
+import { DataSource, EntityManager } from "typeorm";
 import { User } from "../database/entities/User";
 import { INVERSIFY_TYPES } from "../Inversify/InversifyTypes";
 import { IDatabaseConnection } from "../database/instances/DatabaseConnection.interface";
@@ -15,5 +15,28 @@ export class UserDatastore implements IUserDatastore {
   public async saveUser(
     object: User,
     transaction?: EntityManager
-  ): Promise<void> {}
+  ): Promise<User> {
+    const executeQuery = (connection: DataSource) =>
+      connection.getRepository(User).save(object);
+    if (transaction) {
+      return executeQuery(transaction.connection);
+    }
+    return this.databaseConnnection.usingConnection(executeQuery);
+  }
+
+  public async getUserByEmail(
+    email: string,
+    transaction?: EntityManager
+  ): Promise<User | null> {
+    const executeQuery = (connection: DataSource) =>
+      connection
+        .getRepository(User)
+        .createQueryBuilder("user")
+        .where("user.email = :email", { email })
+        .getOne();
+    if (transaction) {
+      return executeQuery(transaction.connection);
+    }
+    return this.databaseConnnection.usingConnection(executeQuery);
+  }
 }

@@ -11,6 +11,13 @@ import { IAuthRepository } from "../repository/AuthRepository.interface";
 import { AuthRepository } from "../repository/AuthRepository";
 import { IUserDatastore } from "../datastore/UserDatastore.interface";
 import { UserDatastore } from "../datastore/UserDatastore";
+import { ErrorMiddleware } from "../server/middlewares/ErrorMiddleware";
+
+// Middlewares
+export const initializeMiddlewares = (container: Container) => {
+  container.bind(INVERSIFY_TYPES.ErrorMiddleware).to(ErrorMiddleware);
+  return container;
+};
 
 // Datastores
 export const initializeDatastores = (container: Container) => {

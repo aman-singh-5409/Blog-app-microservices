@@ -1,4 +1,7 @@
 export const INVERSIFY_TYPES = {
+  //Middlewares
+  ErrorMiddleware: Symbol.for('ErrorMiddleware'),
+  
   //Datastores
   UserDatastore: Symbol.for('UserDatastore'),
 

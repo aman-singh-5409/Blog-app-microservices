@@ -5,6 +5,7 @@ import {
   initializeDatabase,
   initializeDatastores,
   initializeLogger,
+  initializeMiddlewares,
   initializeRepositories,
   initializeServer,
 } from "./Inversify/Inversify";
@@ -34,6 +35,7 @@ export class ServerInit {
     const container = new Container();
     initializeLogger(container);
     initializeServer(container);
+    initializeMiddlewares(container);
     initializeDatabase(container);
     initializeDatastores(container);
     initializeRepositories(container);
