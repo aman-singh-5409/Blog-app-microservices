@@ -1,0 +1,30 @@
+version: '3.1'
+services:
+  mysqldb:
+    image: mysql:8.0
+    restart: on-failure
+    environment:
+      MYSQL_DATABASE: bondu_local
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: o2h
+      MYSQL_PASSWORD: o2h
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
+      MYSQL_ROOT_HOST: '%'
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+
+
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mysqldb
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root  # Make sure this matches the root password
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysqldb
