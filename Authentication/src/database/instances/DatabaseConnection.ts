@@ -1,18 +1,18 @@
 import { inject, injectable } from "inversify";
 import { IDatabaseConnection } from "./DatabaseConnection.interface";
 import { DataSource, EntityManager } from "typeorm";
-import { INVERSIFY_TYPES } from "../../Inversify/InversifyTypes";
-import { ILogger } from "../../utils/Logging/Logger.interface";
+import { ILogger } from "../../../../common/Logging/Logger.interface";
 import { join } from "path";
-import { Exception } from "../../utils/exceptions/Exception";
-import { ErrorCode } from "../../utils/exceptions/ErrorCode";
+import { Exception } from "../../../../common/exceptions/Exception";
+import { ErrorCode } from "../../../../common/exceptions/ErrorCode";
+import { COMMON_INVERSIFY_TYPES } from "../../../../common/Inversify/InversifyTypes";
 
 @injectable()
 export class DatabaseConnection implements IDatabaseConnection {
   private connection?: DataSource;
 
   constructor(
-    @inject<ILogger>(INVERSIFY_TYPES.Logger) private logger: ILogger
+    @inject<ILogger>(COMMON_INVERSIFY_TYPES.Logger) private logger: ILogger
   ) {
     this.initDbConnection();
   }

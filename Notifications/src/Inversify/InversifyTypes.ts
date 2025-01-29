@@ -11,9 +11,6 @@ export const INVERSIFY_TYPES = {
   // Middleware
   ErrorMiddleware: Symbol.for("ErrorMiddleware"),
 
-  // Logger
-  Logger: Symbol.for("WinstonLogger"),
-
   // Server
   Server: Symbol.for("Server"),
 };

@@ -4,11 +4,11 @@ import {
   initializeControllers,
   initializeDatabase,
   initializeDatastores,
-  initializeLogger,
   initializeMiddlewares,
   initializeRepositories,
   initializeServer,
 } from "./Inversify/Inversify";
+import { initializeLogger, initializeService } from '../../common/Inversify/Inversify';
 import { INVERSIFY_TYPES } from "./Inversify/InversifyTypes";
 import { IDatabaseConnection } from "./database/instances/DatabaseConnection.interface";
 
@@ -40,6 +40,7 @@ export class ServerInit {
     initializeDatastores(container);
     initializeRepositories(container);
     initializeControllers(container);
+    initializeService(container);
     return container;
   }
 }

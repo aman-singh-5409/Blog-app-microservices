@@ -2,12 +2,15 @@ import { Container } from "inversify";
 import { Server } from "./server/server";
 import {
   initializeControllers,
-  initializeLogger,
   initializeMiddlewares,
   initializeRepository,
   initializeServer,
   initializeServices,
 } from "./Inversify/Inversify";
+import {
+  initializeLogger,
+  initializeService as initializeCommonServices,
+} from "../../common/Inversify/Inversify";
 import { INVERSIFY_TYPES } from "./Inversify/InversifyTypes";
 
 export class ServerInit {
@@ -32,6 +35,7 @@ export class ServerInit {
     initializeMiddlewares(container);
     initializeControllers(container);
     initializeRepository(container);
+    initializeCommonServices(container);
     return container;
   }
 }

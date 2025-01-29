@@ -1,16 +1,16 @@
 import { inject, injectable } from "inversify";
 import express from "express";
-import { ILogger } from "../../utils/Logging/Logger.interface";
-import { INVERSIFY_TYPES } from "../../Inversify/InversifyTypes";
 import { expressErrorCallBack } from "../../Types/ExpressCallback";
-import { Exception } from "../../utils/exceptions/Exception";
-import { ErrorCode } from "../../utils/exceptions/ErrorCode";
-import { LocalizationMessage } from "../../utils/messages";
-import { HttpStatus } from "../../utils/constants";
+import { HttpStatus } from "../../../../common/helpers/constants";
+import { COMMON_INVERSIFY_TYPES } from "../../../../common/Inversify/InversifyTypes";
+import { ILogger } from "../../../../common/Logging/Logger.interface";
+import { Exception } from "../../../../common/exceptions/Exception";
+import { ErrorCode } from "../../../../common/exceptions/ErrorCode";
+import { LocalizationMessage } from "../../../../common/helpers/messages";
 
 @injectable()
 export class ErrorMiddleware {
-  constructor(@inject(INVERSIFY_TYPES.Logger) private logger: ILogger) {}
+  constructor(@inject(COMMON_INVERSIFY_TYPES.Logger) private logger: ILogger) {}
 
   public handler(): expressErrorCallBack {
     return (

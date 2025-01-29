@@ -1,7 +1,5 @@
 import { Container } from "inversify";
-import { ILogger } from "../utils/Logging/Logger.interface";
 import { INVERSIFY_TYPES } from "./InversifyTypes";
-import { WinstonLogger } from "../utils/Logging/WinstonLogger";
 import { Server } from "../server/server";
 import { IDatabaseConnection } from "../database/instances/DatabaseConnection.interface";
 import { DatabaseConnection } from "../database/instances/DatabaseConnection";
@@ -40,15 +38,6 @@ export const initializeControllers = (container: Container) => {
   container
     .bind<IRouterController>(INVERSIFY_TYPES.Controller)
     .to(AuthController);
-  return container;
-};
-
-// Logger
-export const initializeLogger = (container: Container) => {
-  container
-    .bind<ILogger>(INVERSIFY_TYPES.Logger)
-    .to(WinstonLogger)
-    .inSingletonScope();
   return container;
 };
 

@@ -2,16 +2,17 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import { inject, injectable, multiInject } from "inversify";
 import { INVERSIFY_TYPES } from "../Inversify/InversifyTypes";
-import { ILogger } from "../utils/Logging/Logger.interface";
+import { ILogger } from "../../../common/Logging/Logger.interface";
 import { ErrorMiddleware } from "./middlewares/ErrorMiddleware";
 import { IRouterController } from "./controllers/IRouterController";
+import { COMMON_INVERSIFY_TYPES } from "../../../common/Inversify/InversifyTypes";
 
 @injectable()
 export class Server {
   public readonly app: express.Application;
 
   constructor(
-    @inject(INVERSIFY_TYPES.Logger) private logger: ILogger,
+    @inject(COMMON_INVERSIFY_TYPES.Logger) private logger: ILogger,
     @inject(INVERSIFY_TYPES.ErrorMiddleware)
     private errorMiddleware: ErrorMiddleware,
     @multiInject(INVERSIFY_TYPES.Controller)

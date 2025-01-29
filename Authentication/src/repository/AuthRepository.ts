@@ -8,9 +8,9 @@ import {
 } from "./AuthRepository.interface";
 import { IUserDatastore } from "../datastore/UserDatastore.interface";
 import { INVERSIFY_TYPES } from "../Inversify/InversifyTypes";
-import { Exception } from "../utils/exceptions/Exception";
-import { ErrorCode } from "../utils/exceptions/ErrorCode";
-import { LocalizationMessage } from "../utils/messages";
+import { Exception } from "../../../common/exceptions/Exception";
+import { ErrorCode } from "../../../common/exceptions/ErrorCode";
+import { LocalizationMessage } from "../../../common/helpers/messages";
 import { User } from "../database/entities/User";
 import { ILoginResponse } from "../Types/ILogin";
 

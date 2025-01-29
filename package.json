@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "amqplib": "^0.10.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "inversify": "^6.2.1",
@@ -8,6 +9,7 @@
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "@types/amqplib": "^0.10.6",
     "@types/express": "^5.0.0",
     "@types/node": "^22.12.0",
     "nodemon": "^3.1.9",

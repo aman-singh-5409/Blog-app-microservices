@@ -2,9 +2,9 @@ import { NextFunction, Router } from "express";
 import express from "express";
 import { IRouterController } from "./IRouterController";
 import { inject, injectable } from "inversify";
-import { Exception } from "../../utils/exceptions/Exception";
-import { ErrorCode } from "../../utils/exceptions/ErrorCode";
-import { LocalizationMessage } from "../../utils/messages";
+import { Exception } from "../../../../common/exceptions/Exception";
+import { ErrorCode } from "../../../../common/exceptions/ErrorCode";
+import { LocalizationMessage } from "../../../../common/helpers/messages";
 import { INVERSIFY_TYPES } from "../../Inversify/InversifyTypes";
 import { IMailRepository } from "../../repository/MailRespository.interface";
 

@@ -2,8 +2,6 @@ import { Container } from "inversify";
 import { IEmailService } from "../services/EmailService.interface";
 import { INVERSIFY_TYPES } from "./InversifyTypes";
 import { EmailService } from "../services/EmailService";
-import { ILogger } from "../utils/logging/Logger.interface";
-import { WinstonLogger } from "../utils/logging/WinstonLogger";
 import { Server } from "../server/server";
 import { ErrorMiddleware } from "../server/middlewares/ErrorMiddleware";
 import { IRouterController } from "../server/controller/IRouterController";
@@ -36,15 +34,6 @@ export const initializeControllers = (container: Container) => {
 // Middlewares
 export const initializeMiddlewares = (container: Container) => {
   container.bind(INVERSIFY_TYPES.ErrorMiddleware).to(ErrorMiddleware);
-  return container;
-};
-
-// Logger
-export const initializeLogger = (container: Container) => {
-  container
-    .bind<ILogger>(INVERSIFY_TYPES.Logger)
-    .to(WinstonLogger)
-    .inSingletonScope();
   return container;
 };
 
