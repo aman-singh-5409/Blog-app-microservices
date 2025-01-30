@@ -20,6 +20,6 @@ export const initializeLogger = (container: Container) => {
 export const initializeService = (container: Container) => {
   container
     .bind<IMessageBroker>(COMMON_INVERSIFY_TYPES.MessageBroker)
-    .to(MessageBroker);
+    .to(MessageBroker).inSingletonScope();
   return container;
 };

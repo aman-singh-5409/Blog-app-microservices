@@ -13,11 +13,14 @@ import { ErrorCode } from "../../../common/exceptions/ErrorCode";
 import { LocalizationMessage } from "../../../common/helpers/messages";
 import { User } from "../database/entities/User";
 import { ILoginResponse } from "../Types/ILogin";
+import { COMMON_INVERSIFY_TYPES } from "../../../common/Inversify/InversifyTypes";
+import { IMessageBroker } from "../../../common/Services/MessageBroker.interface";
 
 @injectable()
 export class AuthRepository implements IAuthRepository {
   constructor(
-    @inject(INVERSIFY_TYPES.UserDatastore) private userDatastore: IUserDatastore
+    @inject(INVERSIFY_TYPES.UserDatastore) private userDatastore: IUserDatastore,
+    @inject(COMMON_INVERSIFY_TYPES.MessageBroker) private messageBroker: IMessageBroker
   ) {}
 
   public async loginWithEmailAndPassword({
@@ -75,6 +78,10 @@ export class AuthRepository implements IAuthRepository {
     newUser.username = username;
     newUser.email = email;
     newUser.password = hashedPassword;
+
+    this.messageBroker.publishToQueue('hello', {
+      message: "Hello, from authenctication",
+    });
 
     return this.userDatastore.saveUser(newUser);
   }

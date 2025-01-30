@@ -34,13 +34,13 @@ export class ServerInit {
   initInversifyContainer() {
     const container = new Container();
     initializeLogger(container);
+    initializeService(container);
     initializeServer(container);
     initializeMiddlewares(container);
     initializeDatabase(container);
     initializeDatastores(container);
     initializeRepositories(container);
     initializeControllers(container);
-    initializeService(container);
     return container;
   }
 }

@@ -12,6 +12,8 @@ import {
   initializeService as initializeCommonServices,
 } from "../../common/Inversify/Inversify";
 import { INVERSIFY_TYPES } from "./Inversify/InversifyTypes";
+import { IMessageBroker } from "../../common/Services/MessageBroker.interface";
+import { COMMON_INVERSIFY_TYPES } from "../../common/Inversify/InversifyTypes";
 
 export class ServerInit {
   public readonly appServer: Server;
@@ -30,12 +32,12 @@ export class ServerInit {
   initInversifyContainer() {
     const container = new Container();
     initializeLogger(container);
+    initializeCommonServices(container);
     initializeServer(container);
     initializeServices(container);
     initializeMiddlewares(container);
     initializeControllers(container);
     initializeRepository(container);
-    initializeCommonServices(container);
     return container;
   }
 }

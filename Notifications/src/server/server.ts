@@ -5,12 +5,14 @@ import { ILogger } from "../../../common/Logging/Logger.interface";
 import { ErrorMiddleware } from "./middlewares/ErrorMiddleware";
 import { IRouterController } from "./controller/IRouterController";
 import { COMMON_INVERSIFY_TYPES } from "../../../common/Inversify/InversifyTypes";
+import { IMessageBroker } from "../../../common/Services/MessageBroker.interface";
 
 @injectable()
 export class Server {
   public readonly app: express.Application;
 
   constructor(
+    @inject(COMMON_INVERSIFY_TYPES.MessageBroker) private messageBroker: IMessageBroker,
     @inject(COMMON_INVERSIFY_TYPES.Logger) private logger: ILogger,
     @inject(INVERSIFY_TYPES.ErrorMiddleware)
     private errorMiddleware: ErrorMiddleware,
@@ -21,6 +23,7 @@ export class Server {
     this.initializeMiddleware();
     this.initializeControllers();
     this.initializeErrorHandler();
+    this.initializeMessageBrokerHandler();
   }
 
   private initializeMiddleware() {
@@ -36,6 +39,12 @@ export class Server {
     this.controlllers.forEach((controller) => {
       this.app.use("/", controller.router);
     });
+  }
+
+  private initializeMessageBrokerHandler() {
+    this.messageBroker.consumeFromQueue("hello", (msg: object) => {
+      console.log({msg});
+    })
   }
 
   public listen() {
